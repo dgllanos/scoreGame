@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import java.sql.Time
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             score = savedInstanceState.getInt(SCORE_KEY)
-            countInitial = savedInstanceState.getLong(TIME_SCORE_KEY)
+            TimeOnTimer = savedInstanceState.getLong(TIME_SCORE_KEY)
             restoreGame()
         }else{
             resetGame()
@@ -50,9 +51,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun restoreGame(){
         score_text_view.text = getString(R.string.score_game, score.toString())
-        val restoreTime = countInitial/1000
+        val restoreTime = TimeOnTimer/1000
         time_text_view.text = getString(R.string.time_game, restoreTime.toString())
-        countDownTimer = object: CountDownTimer(countInitial, countInterval){
+        countDownTimer = object: CountDownTimer(TimeOnTimer, countInterval){
             override fun onTick(millisUntilFinished: Long) {
                 val time = millisUntilFinished/1000
                 time_text_view.text = getString(R.string.time_game, time.toString())
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 endGame()
             }
         }
-        countDownTimer.start()
+        startGame()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
